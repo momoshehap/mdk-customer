@@ -1,0 +1,14 @@
+const String splashScreen = "/splash_screen";
+const String loginScreen = "/login_screen";
+const String homeScreen = "/home_screen";
+const String profileScreen = "/profile_screen";
+const String contactsScreen = "/contacts_screen";
+const String settingsScreen = "/settings_screen";
+const String addorderScreen = "/addOrder_screen";
+const String appMainScreen = "/appMain_screen";
+const String orderSucces = "/orderSuccess_screen";
+const String dropOffPickUpScreen = "/dropOff_pickUp_screen";
+const String collectionScreen = "/collection_screen";
+const String deliveryDateScreen = "/delivery_date_screen";
+const String notesScreen = "/notes_screen";
+const String orderPictureScreen = "/order_picture_screen";
