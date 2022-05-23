@@ -3,24 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:intl/date_symbol_data_local.dart'; // for other locales
-
 import '../../../../business_logic/cubit/add_order_cubit/add_order_cubit.dart';
 import '../../../../business_logic/cubit/add_order_cubit/add_order_state.dart';
 import '../../../../utils/strings.dart';
 
 Widget buildSearchbar() {
-  return SizedBox(
-    height: 48,
-    child: TextField(
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(24.0),
-        ),
-        filled: true,
-        hintText: "Search customers",
-        prefixIcon: const Icon(
-          Icons.search,
+  return Padding(
+    padding: const EdgeInsets.only(bottom: 10.0),
+    child: SizedBox(
+      height: 48,
+      child: TextField(
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(24.0),
+          ),
+          filled: true,
+          hintText: "Search customers",
+          prefixIcon: const Icon(
+            Icons.search,
+          ),
         ),
       ),
     ),
@@ -31,9 +32,7 @@ Widget buildSelectedContactsCard() {
   return BlocProvider(
     create: (context) => AddOrderCubit(),
     child: BlocConsumer<AddOrderCubit, AddOrderStates>(
-      listener: (context, state) {
-        // TODO: implement listener
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         var cubit = AddOrderCubit.get(context);
 
@@ -68,7 +67,7 @@ Widget buildSelectedContactsCard() {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 10.0),
-                    child: Container(
+                    child: SizedBox(
                       width: double.infinity,
                       child: Column(
                           mainAxisSize: MainAxisSize.min,
@@ -101,7 +100,7 @@ Widget buildSelectedContactsCard() {
                                 ),
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 2,
                             ),
                             const Text(
@@ -118,8 +117,6 @@ Widget buildSelectedContactsCard() {
                               children: const [
                                 Expanded(
                                   child: Text.rich(
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
                                     TextSpan(
                                       children: <InlineSpan>[
                                         TextSpan(
@@ -142,6 +139,8 @@ Widget buildSelectedContactsCard() {
                                         )
                                       ],
                                     ),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                               ],
@@ -216,9 +215,7 @@ Widget buildDropPickCard() {
   return BlocProvider(
     create: (context) => AddOrderCubit(),
     child: BlocConsumer<AddOrderCubit, AddOrderStates>(
-      listener: (context, state) {
-        // TODO: implement listener
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         var cubit = AddOrderCubit.get(context);
 
@@ -314,9 +311,7 @@ Widget buildCollectionCard() {
   return BlocProvider(
     create: (context) => AddOrderCubit(),
     child: BlocConsumer<AddOrderCubit, AddOrderStates>(
-      listener: (context, state) {
-        // TODO: implement listener
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         var cubit = AddOrderCubit.get(context);
 
@@ -500,9 +495,7 @@ Widget buildNotesCard() {
   return BlocProvider(
     create: (context) => AddOrderCubit(),
     child: BlocConsumer<AddOrderCubit, AddOrderStates>(
-      listener: (context, state) {
-        // TODO: implement listener
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         var cubit = AddOrderCubit.get(context);
         TextEditingController noteController = TextEditingController();
@@ -531,7 +524,7 @@ Widget buildNotesCard() {
             ),
             child: Padding(
               padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 10.0),
-              child: Container(
+              child: SizedBox(
                 width: double.infinity,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

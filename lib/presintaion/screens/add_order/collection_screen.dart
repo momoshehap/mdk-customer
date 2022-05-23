@@ -1,10 +1,6 @@
-import 'package:flutter/cupertino.dart';
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
-import '../../../../business_logic/cubit/add_order_cubit/add_order_cubit.dart';
-import '../../../../business_logic/cubit/add_order_cubit/add_order_state.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mdk_customer/presintaion/screens/add_order/widgets/componants.dart';
-
 import '../../../utils/strings.dart';
 
 class CollectionScreen extends StatelessWidget {
@@ -14,10 +10,9 @@ class CollectionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var h = size.height;
-    var w = size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Collection"),
+        title: const Text("Collection"),
         centerTitle: true,
         backgroundColor: const Color(0xff155079),
         toolbarHeight: 81,
@@ -29,18 +24,22 @@ class CollectionScreen extends StatelessWidget {
           fit: StackFit.expand,
           alignment: Alignment.bottomCenter,
           children: [
-            SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 70),
-                child: Column(
-                  children: [
-                    buildCollectionCard(),
-                    buildCollectionCard(),
-                    buildCollectionCard(),
-                    buildCollectionCard(),
-                    buildCollectionCard(),
-                    buildCollectionCard(),
-                  ],
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 70),
+              child: Expanded(
+                child: ConditionalBuilder(
+                  condition: true,
+                  builder: (context) => ListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    itemBuilder: (BuildContext context, index) {
+                      return buildCollectionCard();
+                    },
+                    itemCount: 10,
+                  ),
+                  fallback: (context) => const Center(
+                      child: CircularProgressIndicator(
+                    color: Color(0xff155079),
+                  )),
                 ),
               ),
             ),

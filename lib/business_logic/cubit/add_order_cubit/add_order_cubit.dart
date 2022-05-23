@@ -8,7 +8,7 @@ import '../../../presintaion/screens/orderSuccess_screen.dart';
 import '../../../presintaion/screens/profile/profile_screen.dart';
 import '../../../presintaion/screens/settings_screen.dart';
 import 'add_order_state.dart';
-import 'package:image_picker/image_picker.dart';
+// import 'package:image_picker/image_picker.dart';
 
 class AddOrderCubit extends Cubit<AddOrderStates> {
   AddOrderCubit() : super(InitAddOrderState());
@@ -38,27 +38,27 @@ class AddOrderCubit extends Cubit<AddOrderStates> {
     emit(ChangeGetNewDatestate());
   }
 
-  late XFile imageFile;
+  // late XFile imageFile;
 
-  void openCamera(BuildContext context) async {
-    final pickedFile = await ImagePicker().pickImage(
-      source: ImageSource.camera,
-    );
-    if (pickedFile != null) {
-      imageFile = pickedFile;
-    }
-    Navigator.pop(context);
-    emit(PickPicturestate());
-  }
+  // void openCamera(BuildContext context) async {
+  //   final pickedFile = await ImagePicker().pickImage(
+  //     source: ImageSource.camera,
+  //   );
+  //   if (pickedFile != null) {
+  //     imageFile = pickedFile;
+  //   }
+  //   Navigator.pop(context);
+  //   emit(PickPicturestate());
+  // }
 
-  void openGallery(BuildContext context) async {
-    final pickedFile = await ImagePicker().pickImage(
-      source: ImageSource.gallery,
-    );
-    if (pickedFile != null) {
-      imageFile = pickedFile;
-    }
+  // void openGallery(BuildContext context) async {
+  //   final pickedFile = await ImagePicker().pickImage(
+  //     source: ImageSource.gallery,
+  //   );
+  //   if (pickedFile != null) {
+  //     imageFile = pickedFile;
+  //   }
 
-    Navigator.pop(context);
-  }
+  //   Navigator.pop(context);
+  // }
 }

@@ -1,24 +1,27 @@
 import 'package:flutter/material.dart';
 
 Widget buildSearchbar() {
-  return SizedBox(
-    height: 48,
-    child: TextField(
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(24.0),
-        ),
-        filled: true,
-        hintText: "Search customers",
-        prefixIcon: const Icon(
-          Icons.search,
+  return Padding(
+    padding: const EdgeInsets.only(bottom: 10.0),
+    child: SizedBox(
+      height: 48,
+      child: TextField(
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(24.0),
+          ),
+          filled: true,
+          hintText: "Search customers",
+          prefixIcon: const Icon(
+            Icons.search,
+          ),
         ),
       ),
     ),
   );
 }
 
-Widget buildCustomerCard() {
+Widget buildContactsCard() {
   return InkWell(
     onTap: () {},
     child: Padding(
@@ -95,8 +98,6 @@ Widget buildCustomerCard() {
                     children: const [
                       Expanded(
                         child: Text.rich(
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
                           TextSpan(
                             children: <InlineSpan>[
                               TextSpan(
@@ -116,9 +117,11 @@ Widget buildCustomerCard() {
                                   fontFamily: "SegoeUI",
                                   color: Color(0xffB2B1B1),
                                 ),
-                              )
+                              ),
                             ],
                           ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],

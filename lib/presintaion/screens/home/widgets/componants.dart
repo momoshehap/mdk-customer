@@ -1,26 +1,31 @@
 import 'package:flutter/material.dart';
 
 Widget buildSearchbar() {
-  return SizedBox(
-    height: 48,
-    child: TextField(
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(24.0),
-        ),
-        filled: true,
-        hintText: "Search customers",
-        prefixIcon: const Icon(
-          Icons.search,
+  return Padding(
+    padding: const EdgeInsets.only(bottom: 10.0),
+    child: SizedBox(
+      height: 48,
+      child: TextField(
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(24.0),
+          ),
+          filled: true,
+          hintText: "Search customers",
+          prefixIcon: const Icon(
+            Icons.search,
+          ),
         ),
       ),
     ),
   );
 }
 
-Widget buildCustomerCard() {
+Widget buildCustomerCard(BuildContext context) {
   return InkWell(
-    onTap: () {},
+    onTap: () {
+      buildCustomerDialog(context);
+    },
     child: Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -113,8 +118,6 @@ Widget buildCustomerCard() {
                 children: const [
                   Expanded(
                     child: Text.rich(
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
                       TextSpan(
                         children: <InlineSpan>[
                           TextSpan(
@@ -137,6 +140,8 @@ Widget buildCustomerCard() {
                           )
                         ],
                       ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ],
@@ -169,5 +174,232 @@ Widget buildCustomerCard() {
         ),
       ),
     ),
+  );
+}
+
+Future<dynamic> buildCustomerDialog(cnxt) {
+  return showDialog(
+    barrierDismissible: false,
+    context: cnxt,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        backgroundColor: Colors.white.withOpacity(0.0),
+        contentPadding: const EdgeInsets.all(0.0),
+        content: SizedBox(
+          height: 330,
+          child: Stack(
+            alignment: Alignment.topRight,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 20.0),
+                child: Container(
+                  height: 290,
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: const [
+                              Text(
+                                "#22548",
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  fontFamily: "SegoeUI",
+                                  color: Color(0xff004067),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Spacer(),
+                              ImageIcon(
+                                AssetImage("assets/icons/Collected.png"),
+                                color: Colors.green,
+                              ),
+                              Text(
+                                "Collected",
+                                style: TextStyle(
+                                  color: Colors.green,
+                                  fontSize: 13,
+                                  fontFamily: "SegoeUI",
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                "Doctor",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: "SegoeUI",
+                                    color: Color(0xff004067),
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  height: 15,
+                                  width: 2,
+                                  color: Color(0xff707070),
+                                ),
+                              ),
+                              Text(
+                                "Dr. Ali Salha",
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Color(0xffB2B1B1),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            children: const [
+                              ImageIcon(
+                                AssetImage("assets/icons/Collected.png"),
+                                color: Color(0xff004067),
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                "+961 1 255 863",
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontFamily: "SegoeUI",
+                                  color: Color(0xffB2B1B1),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: const [
+                              Expanded(
+                                child: Text.rich(
+                                  TextSpan(
+                                    children: <InlineSpan>[
+                                      TextSpan(
+                                        text: 'Hamra - ',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontFamily: "SegoeUI",
+                                          color: Color(0xffB2B1B1),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text:
+                                            "Clemenceau street -Clemenceau medicalcenter-Bloc A - 15th floor - Clinic 220",
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          fontFamily: "SegoeUI",
+                                          color: Color(0xffB2B1B1),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                "Pick up ",
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontFamily: "SegoeUI",
+                                  color: Colors.blue,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                " With collection",
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: Colors.green,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          const Text(
+                            "Notes",
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontFamily: "SegoeUI",
+                              color: Color(0xff004067),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            "please leave the packages at the reciption with mrs . Nayla Saade",
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontFamily: "SegoeUI",
+                              color: Color(0xff004067),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              InkWell(
+                                onTap: () {},
+                                child: Image.asset("assets/icons/mic.png"),
+                              ),
+                              InkWell(
+                                onTap: () {},
+                                child: Image.asset(
+                                  "assets/icons/play_voice.png",
+                                ),
+                              ),
+                            ],
+                          ),
+                        ]),
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Positioned(
+                    top: 0, child: Image.asset("assets/icons/selected.png")),
+              ),
+            ],
+          ),
+        ),
+      );
+    },
   );
 }

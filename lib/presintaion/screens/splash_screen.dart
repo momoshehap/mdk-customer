@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_gradient_colors/flutter_gradient_colors.dart';
 import '../../utils/strings.dart';
-import 'appMain_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({key});

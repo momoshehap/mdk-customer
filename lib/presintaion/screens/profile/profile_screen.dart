@@ -47,7 +47,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   return null;
                 },
                 maxLines: 1,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: UnderlineInputBorder(),
                   fillColor: Colors.white,
                   labelText: "First Name",
@@ -66,7 +66,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   return null;
                 },
                 maxLines: 1,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: UnderlineInputBorder(),
                   fillColor: Colors.white,
                   labelText: "Last Name",
@@ -84,7 +84,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       color: Colors.grey[600],
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     width: double.infinity,
                     child: DropdownButton<String>(
                       value: dropdownValue,
@@ -93,7 +93,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       underline: Container(
                           width: double.infinity,
                           height: 1,
-                          color: Color(0xFF000000)),
+                          color: const Color(0xFF000000)),
                       onChanged: (String? newValue) {
                         setState(() {
                           dropdownValue = newValue!;
@@ -123,7 +123,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ? null
                     : "Please enter a valid email",
                 maxLines: 1,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   fillColor: Colors.white,
                   border: UnderlineInputBorder(),
                   labelText: "UserName",
@@ -142,7 +142,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   return null;
                 },
                 maxLines: 1,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   fillColor: Colors.white,
                   border: UnderlineInputBorder(),
                   labelText: "mobile",
@@ -160,7 +160,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       color: Colors.grey[600],
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     width: double.infinity,
                     child: DropdownButton<String>(
                       value: citydropdownValue,
@@ -169,7 +169,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       underline: Container(
                           width: double.infinity,
                           height: 1,
-                          color: Color(0xFF000000)),
+                          color: const Color(0xFF000000)),
                       onChanged: (String? newValue) {
                         setState(() {
                           citydropdownValue = newValue!;
@@ -218,8 +218,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(24.0),
                       ),
-                      primary: Color(0xff155079),
-                      minimumSize: Size.fromHeight(50)),
+                      primary: const Color(0xff155079),
+                      minimumSize: const Size.fromHeight(50)),
                   onPressed: () {
                     if (formKey.currentState!.validate()) {}
                   },

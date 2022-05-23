@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/material.dart';
 
 class OrderSucces extends StatelessWidget {
   const OrderSucces({Key? key}) : super(key: key);
@@ -26,7 +24,7 @@ class OrderSucces extends StatelessWidget {
               fontSize: 19,
               fontFamily: "SegoeUI",
               fontWeight: FontWeight.bold,
-              color: Color(0xffB707070),
+              color: Color(0xff707070),
             ),
           ),
         ],
