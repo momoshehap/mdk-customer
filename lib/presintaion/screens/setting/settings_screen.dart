@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mdk_customer/presintaion/screens/setting/widgets/componants.dart';
+import 'package:mdk_customer/utils/strings.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({key});
@@ -15,11 +16,28 @@ class _SettingScreen extends State<SettingScreen> {
       padding: const EdgeInsets.all(15.0),
       child: Column(
         children: [
-          buildsettingcomponant("about", "About MDK"),
-          buildsettingcomponant("driver", "MDK Driver"),
-          buildsettingcomponant("Statistics", "Statistics"),
-          buildsettingcomponant("support", "Support"),
-          buildsettingcomponant("logout", "Logout"),
+          buildsettingcomponant(
+            context,
+            imgname: "about",
+            title: "About MDK",
+          ),
+          buildsettingcomponant(
+            context,
+            imgname: "driver",
+            title: "MDK Driver",
+          ),
+          buildsettingcomponant(
+            context,
+            imgname: "Statistics",
+            title: "Statistics",
+          ),
+          buildsettingcomponant(
+            context,
+            imgname: "support",
+            title: "Support",
+          ),
+          buildsettingcomponant(context,
+              imgname: "logout", title: "Logout", screen: loginScreen),
         ],
       ),
     );

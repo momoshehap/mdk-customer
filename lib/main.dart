@@ -23,6 +23,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'MDK',
         theme: ThemeData(
+          primaryColor: const Color(0xff155079),
           appBarTheme: const AppBarTheme(
             titleTextStyle: TextStyle(
                 fontSize: 24,

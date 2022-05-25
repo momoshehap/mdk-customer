@@ -6,7 +6,7 @@ import '../../../presintaion/screens/contacts/contacts_screen.dart';
 import '../../../presintaion/screens/home/home_screen.dart';
 import '../../../presintaion/screens/orderSuccess_screen.dart';
 import '../../../presintaion/screens/profile/profile_screen.dart';
-import '../../../presintaion/screens/settings_screen.dart';
+import '../../../presintaion/screens/setting/settings_screen.dart';
 import 'add_order_state.dart';
 // import 'package:image_picker/image_picker.dart';
 

@@ -267,7 +267,7 @@ Future<dynamic> buildCustomerDialog(cnxt) {
                           Row(
                             children: const [
                               ImageIcon(
-                                AssetImage("assets/icons/Collected.png"),
+                                AssetImage("assets/icons/number.png"),
                                 color: Color(0xff004067),
                               ),
                               SizedBox(
@@ -394,7 +394,7 @@ Future<dynamic> buildCustomerDialog(cnxt) {
                   Navigator.of(context).pop();
                 },
                 child: Positioned(
-                    top: 0, child: Image.asset("assets/icons/selected.png")),
+                    top: 0, child: Image.asset("assets/icons/dismiss.png")),
               ),
             ],
           ),

@@ -6,7 +6,7 @@ import '../../../presintaion/screens/contacts/contacts_screen.dart';
 import '../../../presintaion/screens/home/home_screen.dart';
 import '../../../presintaion/screens/orderSuccess_screen.dart';
 import '../../../presintaion/screens/profile/profile_screen.dart';
-import '../../../presintaion/screens/settings_screen.dart';
+import '../../../presintaion/screens/setting/settings_screen.dart';
 import 'home_navigation_state.dart';
 
 class NavAppCubit extends Cubit<NavappStates> {

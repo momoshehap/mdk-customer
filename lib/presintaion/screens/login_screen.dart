@@ -44,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset("assets/icons/logoDark.png"),
+                  Image.asset("assets/icons/logoDark1.png"),
                   const SizedBox(
                     height: 80,
                   ),
@@ -121,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(24.0),
                       ),
-                      primary: Color(0xff155079),
+                      primary: const Color(0xff155079),
                       minimumSize: const Size.fromHeight(55), // NEW
                     ),
                     onPressed: () {

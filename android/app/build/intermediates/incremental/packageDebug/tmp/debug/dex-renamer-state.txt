@@ -1,4 +1,0 @@
-#Mon May 23 10:15:17 EET 2022
-base.0=D\:\\flutter\\optimalWork\\mdk_customer\\android\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
-renamed.0=classes.dex
-path.0=classes.dex

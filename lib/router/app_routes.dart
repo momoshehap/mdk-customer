@@ -12,18 +12,13 @@ import '../presintaion/screens/home/home_screen.dart';
 import '../presintaion/screens/login_screen.dart';
 import '../presintaion/screens/orderSuccess_screen.dart';
 import '../presintaion/screens/profile/profile_screen.dart';
-import '../presintaion/screens/settings_screen.dart';
-import '../presintaion/screens/splash_screen.dart';
+import '../presintaion/screens/setting/settings_screen.dart';
 import '../utils/strings.dart';
 
 class AppRouter {
   Route? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        return MaterialPageRoute(
-          builder: (_) => const SplashScreen(),
-        );
-      case loginScreen:
         return MaterialPageRoute(
           builder: (_) => const LoginScreen(),
         );
