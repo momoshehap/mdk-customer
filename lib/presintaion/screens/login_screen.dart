@@ -1,5 +1,10 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
-import 'package:email_validator/email_validator.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:mdk_customer/business_logic/cubit/api_cubit/api_Cubit.dart';
+import 'package:mdk_customer/business_logic/cubit/api_cubit/api_states.dart';
+import 'package:mdk_customer/presintaion/widgets/login_componants.dart';
 
 import '../../utils/strings.dart';
 
@@ -19,19 +24,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool _isObscure = true;
 
-  final _username = "username@gmail.com";
-
-  final _password = "password123";
-  bool fetchCredentials(String username, String password) {
-    // for (var j = 0; j < _username.length; j++) {
-    //   if (username[j] == _username[j] && password[j] == _password[j]) {
-    //     return true;
-    //   }
-    // }
-
-    return true;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset("assets/icons/logoDark1.png"),
+                  SvgPicture.asset("assets/icons/logoDark.svg"),
                   const SizedBox(
                     height: 80,
                   ),
@@ -62,9 +54,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   TextFormField(
                     controller: usernameController,
-                    validator: (value) => EmailValidator.validate(value!)
-                        ? null
-                        : "Please enter a valid email",
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Please enter a valid email";
+                      }
+
+                      return null;
+                    },
                     maxLines: 1,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -116,27 +112,48 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24.0),
-                      ),
-                      primary: const Color(0xff155079),
-                      minimumSize: const Size.fromHeight(55), // NEW
-                    ),
-                    onPressed: () {
-                      if (formKey.currentState!.validate()) {
-                        if (fetchCredentials(
-                            usernameController.text, passwordController.text)) {
-                          Navigator.of(context).pushNamedAndRemoveUntil(
-                              appMainScreen, (Route<dynamic> route) => false);
-                        }
+                  BlocConsumer<ApiAppCubit, ApiStates>(
+                    listener: (context, state) {
+                      if (state is GetwrongAccountState) {
+                        buildWrongAccountDialog(context);
+                      }
+                      if (state is GetLoginDataErorrState) {
+                        buildCheckInternetAlert(context);
                       }
                     },
-                    child: const Text(
-                      'Login',
-                      style: TextStyle(fontSize: 20),
-                    ),
+                    builder: (context, state) {
+                      var cubit = ApiAppCubit.get(context);
+
+                      return ConditionalBuilder(
+                        condition: state is! NewLoginLoadingState,
+                        builder: (context) => ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(24.0),
+                            ),
+                            primary: Color(0xff155079),
+                            minimumSize: const Size.fromHeight(55), // NEW
+                          ),
+                          onPressed: () async {
+                            if (formKey.currentState!.validate()) {
+                              await cubit.getLoginData(
+                                context: context,
+                                userName: usernameController.text.toString(),
+                                password: passwordController.text.toString(),
+                              );
+                            }
+                          },
+                          child: const Text(
+                            'Login',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ),
+                        fallback: (context) => const Center(
+                            child: CircularProgressIndicator(
+                          color: Color(0xff155079),
+                        )),
+                      );
+                    },
                   ),
                 ],
               ),

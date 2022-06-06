@@ -1,4 +1,5 @@
 const String loginScreen = "/";
+const String mainn = "/main";
 const String homeScreen = "/home_screen";
 const String profileScreen = "/profile_screen";
 const String contactsScreen = "/contacts_screen";

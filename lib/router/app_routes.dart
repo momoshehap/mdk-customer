@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../main.dart';
 import '../presintaion/screens/add_order/addOrder_screen.dart';
 import '../presintaion/screens/add_order/collection_screen.dart';
 import '../presintaion/screens/add_order/delivery_date_screen.dart';
@@ -7,12 +8,12 @@ import '../presintaion/screens/add_order/dropOff_pickUp_screen.dart';
 import '../presintaion/screens/add_order/notes_screen.dart';
 import '../presintaion/screens/add_order/order_picture_screen.dart';
 import '../presintaion/screens/appMain_screen.dart';
-import '../presintaion/screens/contacts/contacts_screen.dart';
-import '../presintaion/screens/home/home_screen.dart';
+import '../presintaion/screens/contacts_screen.dart';
+import '../presintaion/screens/home_screen.dart';
 import '../presintaion/screens/login_screen.dart';
 import '../presintaion/screens/orderSuccess_screen.dart';
-import '../presintaion/screens/profile/profile_screen.dart';
-import '../presintaion/screens/setting/settings_screen.dart';
+import '../presintaion/screens/profile_screen.dart';
+import '../presintaion/screens/settings_screen.dart';
 import '../utils/strings.dart';
 
 class AppRouter {
@@ -22,7 +23,10 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => const LoginScreen(),
         );
-
+      case mainn:
+        return MaterialPageRoute(
+          builder: (_) => const MyApp(),
+        );
       case appMainScreen:
         return MaterialPageRoute(
           builder: (_) => const MainAppScreen(),

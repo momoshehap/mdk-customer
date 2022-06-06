@@ -8,6 +8,16 @@ class ChangeDropOrPickstate extends AddOrderStates {}
 
 class ChangeCollectionSwitchstate extends AddOrderStates {}
 
+class ChangeCurrencystate extends AddOrderStates {}
+
 class ChangeGetNewDatestate extends AddOrderStates {}
 
+class OpenCamerastate extends AddOrderStates {}
+
+class OpenGalarystate extends AddOrderStates {}
+
+class CapturePicturestate extends AddOrderStates {}
+
 class PickPicturestate extends AddOrderStates {}
+
+class ChangeLanguagestate extends AddOrderStates {}

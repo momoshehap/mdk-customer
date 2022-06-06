@@ -7,3 +7,5 @@ class ChangeBottomNavBarstate extends NavappStates {}
 class ChangeTitleAppBarstate extends NavappStates {}
 
 class CallSuccesScreenstate extends NavappStates {}
+
+class CallSettingsScreentate extends NavappStates {}

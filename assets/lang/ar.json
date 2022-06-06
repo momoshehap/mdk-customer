@@ -1,0 +1,40 @@
+{
+    "Home":"الرئيسية", 
+    "update":"تحديث",
+    "Profile":"الملف الشخصي",
+    "navProfile":"بياناتي",
+    "Contacts":"جهات الاتصال",
+    "Settings":"الاعدادات",
+    "arabic":"العربية",
+    "english":"الانجليزية",
+    "notes":"ملاحظات",
+    "OrderSuccess":"تمت العملية بنجاح",
+    "pickup":" جمع من",
+    "empty_order":"لا يوجد طلبات حتى الان",
+    "update_location":"تحديث موقع العميل",
+    "search"  :"بحث",
+    "addNote":"... اضافة ملحوظة",
+    "AboutMDK":"عن MDK",
+    "MDKDriver":"سائق MDK ",
+    "Statistics":"الاحصائيات",
+    "Support":"الدعم الفني",
+    "change_language":"تغير اللغه",
+    "logout":"تسجيل الخروج",
+    "name":"الاسم",
+"userName":"اسم المستخدم",
+"email":"البريد الشخصي",
+"phone":"رقم الموبايل",
+"webSite":"الموقع الاكتروني",
+"address":"العنوان",
+"SelectContacts":"تحديد جهات الاتصال",
+"dropPick":"توصيل الى / جمع من",
+"collection":"تحصيل",
+"date":"تاريخ التوصيل",
+"image":"الصور"
+
+    
+        
+    
+    
+
+}

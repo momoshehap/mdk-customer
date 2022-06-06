@@ -2,25 +2,43 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
+import 'package:mdk_customer/business_logic/cubit/api_cubit/api_Cubit.dart';
+import 'package:mdk_customer/business_logic/cubit/api_cubit/api_states.dart';
+import 'package:mdk_customer/localization/localizatios.dart';
+import 'package:mdk_customer/model/contact_model.dart' as contacts;
+import 'package:mdk_customer/model/order_model.dart';
+import 'package:mdk_customer/model/postOrder_model.dart';
 import '../../../../business_logic/cubit/add_order_cubit/add_order_cubit.dart';
 import '../../../../business_logic/cubit/add_order_cubit/add_order_state.dart';
 import '../../../../utils/strings.dart';
 
-Widget buildSearchbar() {
-  return Padding(
-    padding: const EdgeInsets.only(bottom: 10.0),
-    child: SizedBox(
-      height: 48,
-      child: TextField(
-        decoration: InputDecoration(
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(24.0),
-          ),
-          filled: true,
-          hintText: "Search customers",
-          prefixIcon: const Icon(
-            Icons.search,
+Widget buildSearchbar(context) {
+  return BlocListener<ApiAppCubit, ApiStates>(
+    listener: (context, state) {
+      if (state is NewLoadingShearchCustomersDataState) {
+        ApiAppCubit.get(context).isSearchingcontactss = true;
+      }
+    },
+    child: Padding(
+      padding: const EdgeInsets.only(bottom: 10.0),
+      child: SizedBox(
+        height: 48,
+        child: TextField(
+          onChanged: (value) {
+            ApiAppCubit.get(context).searchContacts(q: value);
+            print(value.isEmpty);
+          },
+          decoration: InputDecoration(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(24.0),
+            ),
+            filled: true,
+            hintText: getLang(context, "search"),
+            prefixIcon: const Icon(
+              Icons.search,
+            ),
           ),
         ),
       ),
@@ -28,17 +46,51 @@ Widget buildSearchbar() {
   );
 }
 
-Widget buildSelectedContactsCard() {
+Widget buildSelectedContactsCard(contacts.Data contact, index) {
   return BlocProvider(
     create: (context) => AddOrderCubit(),
     child: BlocConsumer<AddOrderCubit, AddOrderStates>(
       listener: (context, state) {},
       builder: (context, state) {
         var cubit = AddOrderCubit.get(context);
+        var apicubit = ApiAppCubit.get(context);
 
         return InkWell(
           onTap: () {
             cubit.changeSelectedContact();
+
+            Orders order = Orders(
+              cityName: contact.cityName,
+              cityNameAr: contact.cityNameAr,
+              customerGPS: contact.customerGPS,
+              customerName: contact.customerName,
+              customerId: contact.customerId,
+              customerType: contact.customerType,
+              customerPhone: contact.customerPhone,
+              ifWithCollection: false,
+              orderType: "DropOff",
+              notes: "",
+              image: "",
+              amount: "",
+              currency: "LBP",
+              index: 0,
+              voice: "",
+              voiceNote: "",
+              customerAddress: contact.customerAddress,
+              date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
+            );
+
+            if (cubit.isSelected) {
+              apicubit.makingorders.add(order);
+
+              print(apicubit.makingorders[index].customerPhone);
+            }
+            if (!cubit.isSelected) {
+              print(order.customerPhone);
+
+              apicubit.makingorders.removeAt(index);
+              print(order.customerPhone);
+            }
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -76,8 +128,10 @@ Widget buildSelectedContactsCard() {
                             Row(
                               children: [
                                 Text(
-                                  "Doctor",
-                                  style: TextStyle(
+                                  cubit.isAr
+                                      ? contact.ArcustomerType
+                                      : contact.customerType,
+                                  style: const TextStyle(
                                       fontSize: 15,
                                       fontFamily: "SegoeUI",
                                       color: Color(0xff004067),
@@ -88,12 +142,12 @@ Widget buildSelectedContactsCard() {
                                   child: Container(
                                     height: 15,
                                     width: 2,
-                                    color: Color(0xff707070),
+                                    color: const Color(0xff707070),
                                   ),
                                 ),
                                 Text(
-                                  "Dr. Ali Salha",
-                                  style: TextStyle(
+                                  contact.customerName,
+                                  style: const TextStyle(
                                     fontSize: 15,
                                     color: Color(0xffB2B1B1),
                                   ),
@@ -103,9 +157,9 @@ Widget buildSelectedContactsCard() {
                             const SizedBox(
                               height: 2,
                             ),
-                            const Text(
-                              "+961 1 255 863",
-                              style: TextStyle(
+                            Text(
+                              contact.customerPhone,
+                              style: const TextStyle(
                                 fontSize: 15,
                                 fontFamily: "SegoeUI",
                                 color: Color(0xffB2B1B1),
@@ -114,14 +168,15 @@ Widget buildSelectedContactsCard() {
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisSize: MainAxisSize.min,
-                              children: const [
+                              children: [
                                 Expanded(
                                   child: Text.rich(
                                     TextSpan(
                                       children: <InlineSpan>[
                                         TextSpan(
-                                          text: 'Hamra - ',
-                                          style: TextStyle(
+                                          text:
+                                              '${cubit.isAr ? contact.cityNameAr : contact.cityName} - ',
+                                          style: const TextStyle(
                                             fontSize: 14,
                                             fontFamily: "SegoeUI",
                                             color: Color(0xffB2B1B1),
@@ -129,9 +184,10 @@ Widget buildSelectedContactsCard() {
                                           ),
                                         ),
                                         TextSpan(
-                                          text:
-                                              "Clemenceau street -Clemenceau medicalcenter-Bloc A - 15th floor - Clinic 220",
-                                          style: TextStyle(
+                                          text: cubit.isAr
+                                              ? contact.ArAddress
+                                              : contact.customerAddress,
+                                          style: const TextStyle(
                                             fontSize: 13,
                                             fontFamily: "SegoeUI",
                                             color: Color(0xffB2B1B1),
@@ -151,7 +207,7 @@ Widget buildSelectedContactsCard() {
                 ),
                 Container(
                   child: cubit.isSelected
-                      ? Image.asset("assets/icons/selected.png")
+                      ? SvgPicture.asset("assets/icons/selected.svg")
                       : null,
                 )
               ],
@@ -163,7 +219,55 @@ Widget buildSelectedContactsCard() {
   );
 }
 
+Future buildSelectContactDialog(BuildContext context) {
+  return showDialog(
+    context: context,
+    builder: (BuildContext context) => AlertDialog(
+      titleTextStyle: TextStyle(
+        fontSize: 17,
+        fontFamily: "SegoeUI",
+        color: Color(0xff0D4B75),
+        fontWeight: FontWeight.bold,
+      ),
+      title: const Text('Add Customer'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            "Please select contact",
+            style: TextStyle(
+              fontSize: 13,
+              fontFamily: "SegoeUI",
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text(
+            'Ok',
+            style: TextStyle(
+              fontSize: 17,
+              fontFamily: "SegoeUI",
+              color: Color(0xff0D4B75),
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
 Widget buildBottomOrderBarForOrderScreen(BuildContext context) {
+  var apicubit = ApiAppCubit.get(context);
+
   return Align(
     alignment: Alignment.bottomCenter,
     child: SizedBox(
@@ -197,7 +301,11 @@ Widget buildBottomOrderBarForOrderScreen(BuildContext context) {
             child: FloatingActionButton(
               backgroundColor: const Color(0xff155079),
               onPressed: () {
-                Navigator.of(context).pushNamed(dropOffPickUpScreen);
+                if (apicubit.makingorders.isNotEmpty) {
+                  Navigator.of(context).pushNamed(dropOffPickUpScreen);
+                } else {
+                  buildSelectContactDialog(context);
+                }
               },
               child: const Icon(
                 Icons.arrow_forward_sharp,
@@ -211,13 +319,13 @@ Widget buildBottomOrderBarForOrderScreen(BuildContext context) {
   );
 }
 
-Widget buildDropPickCard() {
+Widget buildDropPickCard(Orders contact, index) {
   return BlocProvider(
     create: (context) => AddOrderCubit(),
-    child: BlocConsumer<AddOrderCubit, AddOrderStates>(
-      listener: (context, state) {},
+    child: BlocBuilder<AddOrderCubit, AddOrderStates>(
       builder: (context, state) {
         var cubit = AddOrderCubit.get(context);
+        var apiCubit = ApiAppCubit.get(context);
 
         return Padding(
           padding: const EdgeInsets.all(8.0),
@@ -243,7 +351,7 @@ Widget buildDropPickCard() {
             ),
             child: Padding(
               padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 10.0),
-              child: Container(
+              child: SizedBox(
                 width: double.infinity,
                 child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -252,7 +360,7 @@ Widget buildDropPickCard() {
                       Row(
                         children: [
                           Text(
-                            "Dr. Ali Salha",
+                            contact.customerName!,
                             style: TextStyle(
                               fontSize: 19,
                               color: Color(0xffB2B1B1),
@@ -269,16 +377,17 @@ Widget buildDropPickCard() {
                               fontSize: 15,
                               fontFamily: "SegoeUI",
                               fontWeight: FontWeight.bold,
-                              color: cubit.dropPickValue == 'Drop off'
+                              color: cubit.dropPickValue == 'DropOff'
                                   ? Color(0xff004067)
                                   : Colors.red,
                             ),
                             onChanged: (String? value) {
                               cubit.changeDropPick(value);
+                              apiCubit.makingorders[index].orderType = value;
                             },
                             items: <String>[
-                              'Drop off',
-                              'Pick up',
+                              'DropOff',
+                              'PickUp',
                             ].map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
@@ -289,7 +398,7 @@ Widget buildDropPickCard() {
                         ],
                       ),
                       Text(
-                        "Doctor",
+                        contact.customerType!,
                         style: TextStyle(
                           fontSize: 15,
                           fontFamily: "SegoeUI",
@@ -307,7 +416,140 @@ Widget buildDropPickCard() {
   );
 }
 
-Widget buildCollectionCard() {
+Widget buildCollectionCard(Orders contact, int index) {
+  return BlocProvider(
+    create: (context) => AddOrderCubit(),
+    child: BlocConsumer<AddOrderCubit, AddOrderStates>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        var cubit = AddOrderCubit.get(context);
+        var apicubit = ApiAppCubit.get(context);
+
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.grey,
+                  offset: Offset(
+                    2.0,
+                    2.0,
+                  ), //Offset
+                  blurRadius: 5.0,
+                ), //BoxShadow
+                BoxShadow(
+                  color: Colors.white,
+                  offset: Offset(0.0, 0.0),
+                  blurRadius: 0.0,
+                  spreadRadius: 0.0,
+                ), //BoxShadow
+              ],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 10.0),
+              child: SizedBox(
+                width: double.infinity,
+                child: Column(
+                  children: [
+                    Row(
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                contact.customerName!,
+                                style: const TextStyle(
+                                  fontSize: 19,
+                                  color: Color(0xffB2B1B1),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                contact.customerType!,
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  fontFamily: "SegoeUI",
+                                  color: Color(0xff004067),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const Spacer(),
+                          CupertinoSwitch(
+                            value: cubit.switchvalue,
+                            onChanged: (value) {
+                              cubit.collectionSwitch(value);
+                              apicubit.makingorders[index].ifWithCollection =
+                                  value;
+                            },
+                          ),
+                        ]),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    cubit.switchvalue
+                        ? Row(
+                            children: [
+                              SizedBox(
+                                width: 100,
+                                child: TextField(
+                                  keyboardType: TextInputType.number,
+                                  decoration: InputDecoration(
+                                    prefixIcon: Icon(Icons.money),
+                                  ),
+                                  onChanged: (value) {
+                                    apicubit.makingorders[index].amount = value;
+                                  },
+                                ),
+                              ),
+                              const Spacer(),
+                              DropdownButton<String>(
+                                value: cubit.currencyValue,
+                                icon:
+                                    const Icon(Icons.keyboard_arrow_down_sharp),
+                                elevation: 16,
+                                underline: Container(),
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  fontFamily: "SegoeUI",
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xff004067),
+                                ),
+                                onChanged: (String? value) {
+                                  cubit.changeCurrency(value);
+                                  apicubit.makingorders[index].currency = value;
+                                },
+                                items: <String>[
+                                  'LBP',
+                                  'USD',
+                                  'EUR',
+                                ].map<DropdownMenuItem<String>>((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                }).toList(),
+                              ),
+                            ],
+                          )
+                        : Container(),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    ),
+  );
+}
+
+Widget buildDeliveryDateCard(Orders contact, index) {
   return BlocProvider(
     create: (context) => AddOrderCubit(),
     child: BlocConsumer<AddOrderCubit, AddOrderStates>(
@@ -339,101 +581,22 @@ Widget buildCollectionCard() {
             ),
             child: Padding(
               padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 10.0),
-              child: Container(
-                width: double.infinity,
-                child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Dr. Ali Salha",
-                            style: TextStyle(
-                              fontSize: 19,
-                              color: Color(0xffB2B1B1),
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            "Doctor",
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontFamily: "SegoeUI",
-                              color: Color(0xff004067),
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const Spacer(),
-                      CupertinoSwitch(
-                        value: cubit.switchvalue,
-                        onChanged: (value) {
-                          cubit.collectionSwitch(value);
-                        },
-                      ),
-                    ]),
-              ),
-            ),
-          ),
-        );
-      },
-    ),
-  );
-}
-
-Widget buildDeliveryDateCard() {
-  return BlocProvider(
-    create: (context) => AddOrderCubit(),
-    child: BlocConsumer<AddOrderCubit, AddOrderStates>(
-      listener: (context, state) {
-        // TODO: implement listener
-      },
-      builder: (context, state) {
-        var cubit = AddOrderCubit.get(context);
-
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.grey,
-                  offset: Offset(
-                    2.0,
-                    2.0,
-                  ), //Offset
-                  blurRadius: 5.0,
-                ), //BoxShadow
-                BoxShadow(
-                  color: Colors.white,
-                  offset: Offset(0.0, 0.0),
-                  blurRadius: 0.0,
-                  spreadRadius: 0.0,
-                ), //BoxShadow
-              ],
-            ),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 10.0),
-              child: Container(
+              child: SizedBox(
                 width: double.infinity,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Dr. Ali Salha",
-                      style: TextStyle(
+                      contact.customerName!,
+                      style: const TextStyle(
                         fontSize: 19,
                         color: Color(0xffB2B1B1),
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
-                      "Doctor",
-                      style: TextStyle(
+                      contact.customerType!,
+                      style: const TextStyle(
                         fontSize: 15,
                         fontFamily: "SegoeUI",
                         color: Color(0xff004067),
@@ -442,10 +605,7 @@ Widget buildDeliveryDateCard() {
                     ),
                     Row(
                       children: [
-                        const ImageIcon(
-                          AssetImage("assets/icons/calendar.png"),
-                          color: Color(0xff707070),
-                        ),
+                        SvgPicture.asset("assets/icons/calendar.svg"),
                         TextButton(
                           onPressed: () {
                             DatePicker.showDatePicker(context,
@@ -455,7 +615,8 @@ Widget buildDeliveryDateCard() {
                                 ),
                                 showTitleActions: true,
                                 minTime: DateTime.now(), onConfirm: (date) {
-                              // print long date in Spanish format
+                              contact.date =
+                                  DateFormat.yMMMMd().format(date).toString();
                               cubit.getNewDate(
                                   '${DateFormat.yMMMMd().format(date).toString()}');
                             },
@@ -491,13 +652,15 @@ Widget buildDeliveryDateCard() {
   );
 }
 
-Widget buildNotesCard() {
+Widget buildNotesCard(contexxt, Orders contact, int index) {
   return BlocProvider(
     create: (context) => AddOrderCubit(),
     child: BlocConsumer<AddOrderCubit, AddOrderStates>(
       listener: (context, state) {},
       builder: (context, state) {
         var cubit = AddOrderCubit.get(context);
+        var apicubit = ApiAppCubit.get(context);
+
         TextEditingController noteController = TextEditingController();
 
         return Padding(
@@ -532,40 +695,36 @@ Widget buildNotesCard() {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          "Dr. Ali Salha",
-                          style: TextStyle(
+                        Text(
+                          contact.customerName!,
+                          style: const TextStyle(
                             fontSize: 19,
                             color: Color(0xffB2B1B1),
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         const Spacer(),
-                        InkWell(
-                          onTap: () {},
-                          child: Image.asset("assets/icons/mic.png"),
-                        ),
-                        InkWell(
-                          onTap: () {},
-                          child: Image.asset(
-                            "assets/icons/play_voice.png",
-                          ),
-                        ),
                       ],
                     ),
-                    Text(
-                      "Doctor",
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontFamily: "SegoeUI",
-                        color: Color(0xff004067),
-                        fontWeight: FontWeight.bold,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10.0),
+                      child: Text(
+                        contact.customerType!,
+                        style: const TextStyle(
+                          fontSize: 15,
+                          fontFamily: "SegoeUI",
+                          color: Color(0xff004067),
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                     TextFormField(
                       controller: noteController,
-                      decoration: const InputDecoration(
-                          hintText: "add note ...",
+                      onChanged: (value) {
+                        apicubit.makingorders[index].notes = value;
+                      },
+                      decoration: InputDecoration(
+                          hintText: getLang(contexxt, "addNote"),
                           border: OutlineInputBorder()),
                       maxLines: 4,
                     )
@@ -587,6 +746,8 @@ Widget buildBottomOrderBarForAllScreen({
   Function? changeState,
   bool getBack = true,
 }) {
+  var apiCubit = ApiAppCubit.get(context);
+
   return Align(
     alignment: Alignment.bottomCenter,
     child: SizedBox(
@@ -601,6 +762,10 @@ Widget buildBottomOrderBarForAllScreen({
               backgroundColor: const Color(0xff155079),
               onPressed: () {
                 Navigator.pop(context);
+                if (nextPage == collectionScreen) {
+                  apiCubit.makingorders = [];
+                  apiCubit.getContacts();
+                }
               },
               child: const Icon(
                 Icons.arrow_back,
@@ -631,14 +796,13 @@ Widget buildBottomOrderBarForAllScreen({
             child: FloatingActionButton(
               backgroundColor: const Color(0xff155079),
               onPressed: () {
-                if (changeState != null) {
-                  changeState();
-                }
+                if (nextPage == deliveryDateScreen) {}
                 if (getBack == false) {
                   Navigator.of(context).pushNamedAndRemoveUntil(
                       nextPage, (Route<dynamic> route) => false);
                 } else {
                   Navigator.of(context).pushNamed(nextPage);
+                  print(apiCubit.makingorders[0].orderType);
                 }
               },
               child: const Icon(
@@ -646,6 +810,68 @@ Widget buildBottomOrderBarForAllScreen({
                 size: 45,
               ),
             ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget buildBottomOrderBarForlastScreen({
+  required BuildContext context,
+  required int pN,
+  required String nextPage,
+  Function? changeState,
+  bool getBack = true,
+}) {
+  var apiCubit = ApiAppCubit.get(context);
+
+  return Align(
+    alignment: Alignment.bottomCenter,
+    child: SizedBox(
+      width: double.infinity,
+      height: 130,
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Expanded(
+            child: FloatingActionButton(
+              backgroundColor: const Color(0xff155079),
+              onPressed: () {
+                Navigator.pop(context);
+                if (nextPage == collectionScreen) {
+                  apiCubit.makingorders = [];
+                  apiCubit.getContacts();
+                }
+              },
+              child: const Icon(
+                Icons.arrow_back,
+                size: 45,
+              ),
+            ),
+          ),
+          Expanded(
+            child: Container(
+              width: 95,
+              height: 35,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: const Color(0xff155079),
+              ),
+              child: Text(
+                "${pN} / 6",
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 17,
+                    fontFamily: "SegoeUI",
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+          Expanded(
+            child: Container(),
           ),
         ],
       ),
