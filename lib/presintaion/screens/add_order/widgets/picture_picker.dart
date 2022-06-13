@@ -27,7 +27,6 @@ Future<void> pickPictureDialog(BuildContext context) {
                     ListTile(
                       onTap: () {
                         cubit.openGallery(context);
-                        Navigator.pop(context);
                       },
                       title: const Text("Gallery"),
                       leading: const Icon(
@@ -42,7 +41,6 @@ Future<void> pickPictureDialog(BuildContext context) {
                     ListTile(
                       onTap: () {
                         cubit.openCamera(context);
-                        Navigator.pop(context);
                       },
                       title: const Text("Camera"),
                       leading: const Icon(

@@ -79,40 +79,38 @@ class SubSettingsScreen extends StatelessWidget {
               return Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Center(
-                  child: Expanded(
-                    child: ConditionalBuilder(
-                      condition: apistate is! NewLoadinStatisticsState &&
-                          apiCubit.isstatistics,
-                      builder: (context) {
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text(
-                              "Total Number Of Orders",
-                              style: TextStyle(
-                                fontSize: 19,
-                                color: Color(0xffB2B1B1),
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "SegoeUI",
-                              ),
+                  child: ConditionalBuilder(
+                    condition: apistate is! NewLoadinStatisticsState &&
+                        apiCubit.isstatistics,
+                    builder: (context) {
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            "Total Number Of Orders",
+                            style: TextStyle(
+                              fontSize: 19,
+                              color: Color(0xffB2B1B1),
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "SegoeUI",
                             ),
-                            Text(
-                              apiCubit.statistics!,
-                              style: const TextStyle(
-                                fontSize: 19,
-                                fontFamily: "SegoeUI",
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xff707070),
-                              ),
+                          ),
+                          Text(
+                            apiCubit.statistics!,
+                            style: const TextStyle(
+                              fontSize: 19,
+                              fontFamily: "SegoeUI",
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xff707070),
                             ),
-                          ],
-                        );
-                      },
-                      fallback: (context) => const Center(
-                          child: CircularProgressIndicator(
-                        color: Color(0xff155079),
-                      )),
-                    ),
+                          ),
+                        ],
+                      );
+                    },
+                    fallback: (context) => const Center(
+                        child: CircularProgressIndicator(
+                      color: Color(0xff155079),
+                    )),
                   ),
                 ),
               );

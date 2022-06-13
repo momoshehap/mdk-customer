@@ -78,29 +78,24 @@ class _OrderPictureScreenState extends State<OrderPictureScreen> {
                         ),
                       ),
                       BlocConsumer<AddOrderCubit, AddOrderStates>(
-                          listener: (context, state) {
-                        print(state);
-                      }, builder: (context, state) {
-                        return Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: ConditionalBuilder(
-                            condition: AddOrderCubit.get(context).file != null,
-                            builder: (context) => Image.file(
-                              AddOrderCubit.get(context).file!,
-                            ),
-                            fallback: (context) => Container(),
-                          ),
-                        );
-                      }),
+                          listener: (context, state) {},
+                          builder: (context, state) {
+                            return Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: ConditionalBuilder(
+                                condition:
+                                    AddOrderCubit.get(context).file != null,
+                                builder: (context) => Image.file(
+                                  AddOrderCubit.get(context).file!,
+                                ),
+                                fallback: (context) => Container(),
+                              ),
+                            );
+                          }),
                       SizedBox(
                         width: 190,
                         child: BlocConsumer<NavAppCubit, NavappStates>(
-                          listener: (context, state) {
-                            print(state);
-                            if (state is UpDateCustomerDataSuccessState) {
-                              print(state);
-                            }
-                          },
+                          listener: (context, state) {},
                           builder: (context, state) {
                             return ElevatedButton(
                               style: ElevatedButton.styleFrom(

@@ -39,22 +39,20 @@ class DeliveryDateScreen extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 70),
-                child: Expanded(
-                  child: ConditionalBuilder(
-                    condition: true,
-                    builder: (context) => ListView.builder(
-                      physics: const BouncingScrollPhysics(),
-                      itemBuilder: (BuildContext context, index) {
-                        return buildDeliveryDateCard(
-                            apiCubit.makingorders[index], index);
-                      },
-                      itemCount: apiCubit.makingorders.length,
-                    ),
-                    fallback: (context) => const Center(
-                        child: CircularProgressIndicator(
-                      color: Color(0xff155079),
-                    )),
+                child: ConditionalBuilder(
+                  condition: true,
+                  builder: (context) => ListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    itemBuilder: (BuildContext context, index) {
+                      return buildDeliveryDateCard(
+                          apiCubit.makingorders[index], index);
+                    },
+                    itemCount: apiCubit.makingorders.length,
                   ),
+                  fallback: (context) => const Center(
+                      child: CircularProgressIndicator(
+                    color: Color(0xff155079),
+                  )),
                 ),
               ),
               buildBottomOrderBarForAllScreen(

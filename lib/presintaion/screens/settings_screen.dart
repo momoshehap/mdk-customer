@@ -22,47 +22,61 @@ class _SettingScreen extends State<SettingScreen> {
             appMainScreen, (Route<dynamic> route) => false);
         return true;
       },
-      child: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Column(
-          children: [
-            buildsettingcomponant(
-              context,
-              imgname: "about",
-              title: getLang(context, "AboutMDK"),
-              screen: "about",
-            ),
-            buildsettingcomponant(
-              context,
-              imgname: "driver",
-              title: getLang(context, "MDKDriver"),
-              screen: "driver",
-            ),
-            buildsettingcomponant(
-              context,
-              imgname: "Statistics",
-              title: getLang(context, "Statistics"),
-              screen: "Statistics",
-            ),
-            buildsettingcomponant(
-              context,
-              imgname: "support",
-              title: getLang(context, "Support"),
-              screen: "support",
-            ),
-            buildsettingcomponant(
-              context,
-              imgname: "changeLanguage",
-              title: getLang(context, "change_language"),
-              screen: "changeLanguage",
-            ),
-            buildsettingcomponant(
-              context,
-              imgname: "logout",
-              title: getLang(context, "logout"),
-              screen: loginScreen,
-            ),
-          ],
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            children: [
+              buildsettingcomponant(
+                context,
+                imgname: "about",
+                title: getLang(context, "AboutMDK"),
+                screen: "about",
+              ),
+              buildsettingcomponant(
+                context,
+                imgname: "driver",
+                title: getLang(context, "MDKDriver"),
+                screen: "driver",
+              ),
+              buildsettingcomponant(
+                context,
+                imgname: "Statistics",
+                title: getLang(context, "Statistics"),
+                screen: "Statistics",
+              ),
+              buildsettingcomponant(
+                context,
+                imgname: "support",
+                title: getLang(context, "Support"),
+                screen: "support",
+              ),
+              buildsettingcomponant(
+                context,
+                imgname: "changeLanguage",
+                title: getLang(context, "change_language"),
+                screen: "changeLanguage",
+              ),
+              buildsettingcomponant(
+                context,
+                imgname: "logout",
+                title: getLang(context, "logout"),
+                screen: loginScreen,
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              const Text(
+                "V 2.3",
+                style: TextStyle(
+                  fontSize: 17,
+                  fontFamily: "SegoeUI",
+                  color: Color(0xff004067),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

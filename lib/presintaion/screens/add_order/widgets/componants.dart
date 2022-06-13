@@ -82,14 +82,10 @@ Widget buildSelectedContactsCard(contacts.Data contact, index) {
 
             if (cubit.isSelected) {
               apicubit.makingorders.add(order);
-
-              print(apicubit.makingorders[index].customerPhone);
             }
             if (!cubit.isSelected) {
-              print(order.customerPhone);
-
-              apicubit.makingorders.removeAt(index);
-              print(order.customerPhone);
+              apicubit.makingorders.removeWhere((element) => element != order);
+              // apicubit.makingorders.removeAt(pos);
             }
           },
           child: Padding(
@@ -361,13 +357,13 @@ Widget buildDropPickCard(Orders contact, index) {
                         children: [
                           Text(
                             contact.customerName!,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 19,
                               color: Color(0xffB2B1B1),
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           DropdownButton<String>(
                             value: cubit.dropPickValue,
                             icon: const Icon(Icons.keyboard_arrow_down_sharp),
@@ -378,7 +374,7 @@ Widget buildDropPickCard(Orders contact, index) {
                               fontFamily: "SegoeUI",
                               fontWeight: FontWeight.bold,
                               color: cubit.dropPickValue == 'DropOff'
-                                  ? Color(0xff004067)
+                                  ? const Color(0xff004067)
                                   : Colors.red,
                             ),
                             onChanged: (String? value) {
@@ -399,7 +395,7 @@ Widget buildDropPickCard(Orders contact, index) {
                       ),
                       Text(
                         contact.customerType!,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 15,
                           fontFamily: "SegoeUI",
                           color: Color(0xff004067),
@@ -489,7 +485,7 @@ Widget buildCollectionCard(Orders contact, int index) {
                             },
                           ),
                         ]),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     cubit.switchvalue
@@ -499,7 +495,7 @@ Widget buildCollectionCard(Orders contact, int index) {
                                 width: 100,
                                 child: TextField(
                                   keyboardType: TextInputType.number,
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                     prefixIcon: Icon(Icons.money),
                                   ),
                                   onChanged: (value) {
@@ -759,6 +755,7 @@ Widget buildBottomOrderBarForAllScreen({
         children: [
           Expanded(
             child: FloatingActionButton(
+              heroTag: "id1",
               backgroundColor: const Color(0xff155079),
               onPressed: () {
                 Navigator.pop(context);
@@ -794,6 +791,7 @@ Widget buildBottomOrderBarForAllScreen({
           ),
           Expanded(
             child: FloatingActionButton(
+              heroTag: "id2",
               backgroundColor: const Color(0xff155079),
               onPressed: () {
                 if (nextPage == deliveryDateScreen) {}

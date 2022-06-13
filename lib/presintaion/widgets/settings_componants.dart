@@ -99,74 +99,74 @@ Future changeLanguage(contexxt) {
               content: SizedBox(
                 width: double.infinity,
                 height: 120,
-                child: Expanded(
-                  child: ConditionalBuilder(
-                    condition: true,
-                    builder: (context) => Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        InkWell(
-                          onTap: () async {
-                            cubit.changeLangu(false);
-                            SharedPreferences userPrefs =
-                                await SharedPreferences.getInstance();
-                            userPrefs.setBool("isEn", false);
-                            Navigator.pop(context);
-                            Navigator.of(context).pushNamedAndRemoveUntil(
-                                mainn, (Route<dynamic> route) => false);
-                          },
-                          child: Container(
-                              width: double.infinity,
-                              height: 50,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(50.0),
-                                color: const Color(0xff155079),
-                              ),
-                              child: Text(
-                                getLang(contexxt, "arabic"),
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 22,
-                                    fontFamily: "SegoeUI"),
-                              )),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        InkWell(
-                          onTap: () async {
-                            cubit.changeLangu(true);
-                            SharedPreferences userPrefs =
-                                await SharedPreferences.getInstance();
-                            userPrefs.setBool("isEn", true);
-                            Navigator.pop(context);
-                            Navigator.of(context).pushNamedAndRemoveUntil(
-                                mainn, (Route<dynamic> route) => false);
-                          },
-                          child: Container(
-                              width: double.infinity,
-                              height: 50,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(50.0),
-                                color: const Color(0xff155079),
-                              ),
-                              child: Text(
-                                getLang(contexxt, "english"),
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 22,
-                                    fontFamily: "SegoeUI"),
-                              )),
-                        ),
-                      ],
-                    ),
-                    fallback: (context) => const Center(
-                        child: CircularProgressIndicator(
-                      color: Color(0xff155079),
-                    )),
+                child: ConditionalBuilder(
+                  condition: true,
+                  builder: (context) => Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      InkWell(
+                        onTap: () async {
+                          cubit.changeLangu(false);
+                          cubit.changeLocale(Locale('ar'));
+
+                          SharedPreferences userPrefs =
+                              await SharedPreferences.getInstance();
+                          userPrefs.setBool("isEn", false);
+
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                            width: double.infinity,
+                            height: 50,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50.0),
+                              color: const Color(0xff155079),
+                            ),
+                            child: Text(
+                              getLang(contexxt, "arabic"),
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 22,
+                                  fontFamily: "SegoeUI"),
+                            )),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      InkWell(
+                        onTap: () async {
+                          cubit.changeLangu(true);
+                          cubit.changeLocale(Locale('en'));
+
+                          SharedPreferences userPrefs =
+                              await SharedPreferences.getInstance();
+                          userPrefs.setBool("isEn", true);
+
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                            width: double.infinity,
+                            height: 50,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50.0),
+                              color: const Color(0xff155079),
+                            ),
+                            child: Text(
+                              getLang(contexxt, "english"),
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 22,
+                                  fontFamily: "SegoeUI"),
+                            )),
+                      ),
+                    ],
                   ),
+                  fallback: (context) => const Center(
+                      child: CircularProgressIndicator(
+                    color: Color(0xff155079),
+                  )),
                 ),
               ),
             );

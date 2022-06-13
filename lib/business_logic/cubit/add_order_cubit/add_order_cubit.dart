@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
+import 'package:mdk_customer/utils/strings.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -16,38 +17,41 @@ class AddOrderCubit extends Cubit<AddOrderStates> {
   AddOrderCubit() : super(InitAddOrderState());
   static AddOrderCubit get(context) => BlocProvider.of(context);
 
-  static bool isEn = true;
+  static bool isEn = false;
   bool isAr = !isEn;
+  Locale? locale;
 
   init() async {
-    SharedPreferences userPrefs = await SharedPreferences.getInstance();
-    bool? lang = userPrefs.getBool('isEn');
-    if (lang == null) {
-      print(lang);
-      isEn = true;
-    } else {
-      print("arabic or english");
-      isEn = lang;
-      isAr = !isEn;
-      print(lang);
-      print(isEn);
-    }
+    await SharedPreferences.getInstance().then((value) {
+      bool? lang = value.getBool('isEn');
+      if (lang == null || lang == true) {
+        isEn = true;
+        changeLocale(Locale('en'));
+      } else if (lang == false) {
+        isEn = lang;
+        changeLocale(Locale('ar'));
+      }
+      emit(SetinitFanctionstate());
+      return value;
+    });
   }
 
   void changeLangu(bool lang) {
-    emit(ChangeLanguagestate());
     isEn = lang;
+    isAr = !isEn;
+    emit(ChangeLanguagestate());
+  }
+
+  void changeLocale(Locale local) {
+    locale = local;
+    emit(ChangeLogstate());
   }
 
   LocaleResolutionCallback localeResolutionCallback =
       (currentLang, supportedLang) {
     if (isEn) {
-      print(isEn);
-
       return supportedLang.first;
     } else {
-      print(isEn);
-
       return supportedLang.last;
     }
   };
@@ -118,12 +122,10 @@ class AddOrderCubit extends Cubit<AddOrderStates> {
     byte = await io.File(path).readAsBytes().then((value) async {
       file = await io.File('${tempDir.path}/image.jpg').create();
       file!.writeAsBytesSync(value);
-      print("file is $file");
     });
 
     emit(CapturePicturestate());
 
-    print("file is $file");
     Navigator.pop(context);
   }
 
@@ -140,12 +142,10 @@ class AddOrderCubit extends Cubit<AddOrderStates> {
     byte = await io.File(path).readAsBytes().then((value) async {
       file = await io.File('${tempDir.path}/image.jpg').create();
       file!.writeAsBytesSync(value);
-      print("file is $file");
     });
 
     emit(PickPicturestate());
 
-    print("file is $file");
     Navigator.pop(context);
   }
 }

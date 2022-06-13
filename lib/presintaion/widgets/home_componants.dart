@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
+
 import 'package:mdk_customer/business_logic/cubit/add_order_cubit/add_order_cubit.dart';
 import 'package:mdk_customer/business_logic/cubit/add_order_cubit/add_order_state.dart';
 import 'package:mdk_customer/business_logic/cubit/api_cubit/api_Cubit.dart';
@@ -224,7 +226,7 @@ Future<dynamic> buildCustomerDialog(cnxt, Data order) {
                   Padding(
                     padding: const EdgeInsets.only(top: 20.0),
                     child: Container(
-                      height: order.notes == "" ? 261 : 270,
+                      height: order.notes == "" ? 275 : 290,
                       decoration: const BoxDecoration(
                         color: Colors.white,
                         shape: BoxShape.rectangle,
@@ -420,15 +422,13 @@ Future<dynamic> buildCustomerDialog(cnxt, Data order) {
                       ),
                     ),
                   ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Positioned(
+                  Positioned(
                       top: 0,
-                      child: SvgPicture.asset(("assets/icons/dismiss.svg")),
-                    ),
-                  )
+                      child: InkWell(
+                          onTap: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: SvgPicture.asset("assets/icons/dismiss.svg"))),
                 ],
               ),
             );

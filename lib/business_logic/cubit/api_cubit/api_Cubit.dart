@@ -53,14 +53,13 @@ class ApiAppCubit extends Cubit<ApiStates> {
         emit(GetwrongAccountState());
       } else {
         user = User.fromJson(value.data);
-        // getCustomerOrders();
+         getOrders() ;
         emit(GetLoginDataSuccessState());
         SharedPreferences userPrefs = await SharedPreferences.getInstance();
         userPrefs.setString(
             'userData', jsonEncode(ApiAppCubit.get(context).user!.toJson()));
         isLogin = true;
-        Navigator.of(context).pushNamedAndRemoveUntil(
-            appMainScreen, (Route<dynamic> route) => false);
+        
       }
     }).catchError((e) {
       print(e);

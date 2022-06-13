@@ -19,7 +19,7 @@ import '../utils/strings.dart';
 class AppRouter {
   Route? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case '/':
+      case loginScreen:
         return MaterialPageRoute(
           builder: (_) => const LoginScreen(),
         );

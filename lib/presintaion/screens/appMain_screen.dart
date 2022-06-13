@@ -91,52 +91,42 @@ class _MainAppScreenState extends State<MainAppScreen> {
               },
               items: [
                 BottomNavigationBarItem(
-                  icon: Expanded(
-                    child: SvgPicture.asset(
-                      "assets/icons/home.svg",
-                      color: cubit.navbarIndex == 0
-                          ? const Color(0xff155079)
-                          : Colors.grey,
-                    ),
+                  icon: SvgPicture.asset(
+                    "assets/icons/home.svg",
+                    color: cubit.navbarIndex == 0
+                        ? const Color(0xff155079)
+                        : Colors.grey,
                   ),
                   label: getLang(context, "Home"),
                 ),
                 BottomNavigationBarItem(
-                  icon: Expanded(
-                    child: SvgPicture.asset(
-                      "assets/icons/profile.svg",
-                      color: cubit.navbarIndex == 1
-                          ? const Color(0xff155079)
-                          : Colors.grey,
-                    ),
+                  icon: SvgPicture.asset(
+                    "assets/icons/profile.svg",
+                    color: cubit.navbarIndex == 1
+                        ? const Color(0xff155079)
+                        : Colors.grey,
                   ),
                   label: getLang(context, "navProfile"),
                 ),
                 const BottomNavigationBarItem(
-                  icon: Expanded(
-                    child: Text(""),
-                  ),
+                  icon: Text(""),
                   label: "",
                 ),
                 BottomNavigationBarItem(
-                  icon: Expanded(
-                    child: SvgPicture.asset(
-                      "assets/icons/contacts.svg",
-                      color: cubit.navbarIndex == 3
-                          ? const Color(0xff155079)
-                          : Colors.grey,
-                    ),
+                  icon: SvgPicture.asset(
+                    "assets/icons/contacts.svg",
+                    color: cubit.navbarIndex == 3
+                        ? const Color(0xff155079)
+                        : Colors.grey,
                   ),
                   label: getLang(context, "Contacts"),
                 ),
                 BottomNavigationBarItem(
-                  icon: Expanded(
-                    child: SvgPicture.asset(
-                      "assets/icons/settings.svg",
-                      color: cubit.navbarIndex == 4
-                          ? const Color(0xff155079)
-                          : Colors.grey,
-                    ),
+                  icon: SvgPicture.asset(
+                    "assets/icons/settings.svg",
+                    color: cubit.navbarIndex == 4
+                        ? const Color(0xff155079)
+                        : Colors.grey,
                   ),
                   label: getLang(context, "Settings"),
                 ),

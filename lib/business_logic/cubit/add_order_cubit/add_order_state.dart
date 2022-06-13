@@ -21,3 +21,7 @@ class CapturePicturestate extends AddOrderStates {}
 class PickPicturestate extends AddOrderStates {}
 
 class ChangeLanguagestate extends AddOrderStates {}
+
+class SetinitFanctionstate extends AddOrderStates {}
+
+class ChangeLogstate extends AddOrderStates {}

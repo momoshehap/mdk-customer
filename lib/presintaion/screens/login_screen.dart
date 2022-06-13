@@ -114,6 +114,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   BlocConsumer<ApiAppCubit, ApiStates>(
                     listener: (context, state) {
+                      if (state is GetLoginDataSuccessState) {
+                        Navigator.of(context).pushReplacementNamed(
+                          appMainScreen,
+                        );
+                      }
+
                       if (state is GetwrongAccountState) {
                         buildWrongAccountDialog(context);
                       }
@@ -155,6 +161,19 @@ class _LoginScreenState extends State<LoginScreen> {
                       );
                     },
                   ),
+
+                   const SizedBox(
+              height: 25,
+            ),
+            Text(
+              "V 2.3",
+              style: TextStyle(
+                fontSize: 17,
+                fontFamily: "SegoeUI",
+                color: Color(0xff004067),
+                fontWeight: FontWeight.bold,
+              ),
+            ),
                 ],
               ),
             ),
